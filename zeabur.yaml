@@ -1,11 +1,52 @@
 # zeabur.yaml
+version: v1
 name: n8n
+
 services:
   n8n:
-    image: n8nio/n8n:1.95.3
+    provider: docker
+    image: n8nio/n8n:latest
+
+    # 映射 n8n 默认端口
+    ports:
+      - 5678:5678
+
+    # 下面这块 env 一定要全量写入
     env:
       - name: DB_TYPE
         value: postgresdb
-      # … 你的其他环境变量
-    ports:
-      - 5678:5678
+
+      - name: DB_POSTGRESDB_HOST
+        value: ${POSTGRES_HOST}          # 在 Zeabur 控制台设置 POSTGRES_HOST
+      - name: DB_POSTGRESDB_PORT
+        value: ${POSTGRES_PORT}          # 在 Zeabur 控制台设置 POSTGRES_PORT
+      - name: DB_POSTGRESDB_DATABASE
+        value: ${POSTGRES_DATABASE}      # 在 Zeabur 控制台设置 POSTGRES_DATABASE
+      - name: DB_POSTGRESDB_USER
+        value: ${POSTGRES_USERNAME}      # 在 Zeabur 控制台设置 POSTGRES_USERNAME
+      - name: DB_POSTGRESDB_PASSWORD
+        value: ${POSTGRES_PASSWORD}      # 在 Zeabur 控制台设置 POSTGRES_PASSWORD
+
+      - name: N8N_HOST
+        value: ${ZEABUR_WEB_DOMAIN}       # 在 Zeabur 控制台设置 ZEABUR_WEB_DOMAIN
+      - name: WEBHOOK_URL
+        value: ${ZEABUR_WEB_URL}          # 在 Zeabur 控制台设置 ZEABUR_WEB_URL
+
+      - name: GENERIC_TIMEZONE
+        value: Asia/Taipei
+
+      - name: NODE_ENV
+        value: production
+
+      - name: N8N_RUNNERS_ENABLED
+        value: "true"
+      - name: N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE
+        value: "true"
+      - name: N8N_DIAGNOSTICS_ENABLED
+        value: "false"
+
+      - name: N8N_ENCRYPTION_KEY
+        value: ${PASSWORD}                # 在 Zeabur 控制台设置 PASSWORD
+
+      - name: PUBLIC_DOMAIN
+        value: xxt
