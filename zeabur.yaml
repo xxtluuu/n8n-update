@@ -5,48 +5,28 @@ name: n8n
 services:
   n8n:
     provider: docker
-    image: n8nio/n8n:latest
-
-    # 映射 n8n 默认端口
+    build: .           # 使用上面这个 Dockerfile 来构建镜像
     ports:
-      - 5678:5678
+      - "5678:5678"
 
-    # 下面这块 env 一定要全量写入
+    # 以下 env 全量保留，值使用 Zeabur 控制台中设置的环境变量
     env:
-      - name: DB_TYPE
-        value: postgresdb
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_HOST: ${POSTGRES_HOST}
+      DB_POSTGRESDB_PORT: ${POSTGRES_PORT}
+      DB_POSTGRESDB_DATABASE: ${POSTGRES_DATABASE}
+      DB_POSTGRESDB_USER: ${POSTGRES_USERNAME}
+      DB_POSTGRESDB_PASSWORD: ${POSTGRES_PASSWORD}
 
-      - name: DB_POSTGRESDB_HOST
-        value: ${POSTGRES_HOST}          # 在 Zeabur 控制台设置 POSTGRES_HOST
-      - name: DB_POSTGRESDB_PORT
-        value: ${POSTGRES_PORT}          # 在 Zeabur 控制台设置 POSTGRES_PORT
-      - name: DB_POSTGRESDB_DATABASE
-        value: ${POSTGRES_DATABASE}      # 在 Zeabur 控制台设置 POSTGRES_DATABASE
-      - name: DB_POSTGRESDB_USER
-        value: ${POSTGRES_USERNAME}      # 在 Zeabur 控制台设置 POSTGRES_USERNAME
-      - name: DB_POSTGRESDB_PASSWORD
-        value: ${POSTGRES_PASSWORD}      # 在 Zeabur 控制台设置 POSTGRES_PASSWORD
+      N8N_HOST: ${ZEABUR_WEB_DOMAIN}
+      WEBHOOK_URL: ${ZEABUR_WEB_URL}
 
-      - name: N8N_HOST
-        value: ${ZEABUR_WEB_DOMAIN}       # 在 Zeabur 控制台设置 ZEABUR_WEB_DOMAIN
-      - name: WEBHOOK_URL
-        value: ${ZEABUR_WEB_URL}          # 在 Zeabur 控制台设置 ZEABUR_WEB_URL
+      GENERIC_TIMEZONE: Asia/Taipei
+      NODE_ENV: production
 
-      - name: GENERIC_TIMEZONE
-        value: Asia/Taipei
+      N8N_RUNNERS_ENABLED: "true"
+      N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE: "true"
+      N8N_DIAGNOSTICS_ENABLED: "false"
 
-      - name: NODE_ENV
-        value: production
-
-      - name: N8N_RUNNERS_ENABLED
-        value: "true"
-      - name: N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE
-        value: "true"
-      - name: N8N_DIAGNOSTICS_ENABLED
-        value: "false"
-
-      - name: N8N_ENCRYPTION_KEY
-        value: ${PASSWORD}                # 在 Zeabur 控制台设置 PASSWORD
-
-      - name: PUBLIC_DOMAIN
-        value: xxt
+      N8N_ENCRYPTION_KEY: ${PASSWORD}
+      PUBLIC_DOMAIN: xxt
