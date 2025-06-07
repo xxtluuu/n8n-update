@@ -1,0 +1,11 @@
+# zeabur.yaml
+name: n8n
+services:
+  n8n:
+    image: n8nio/n8n:1.95.3
+    env:
+      - name: DB_TYPE
+        value: postgresdb
+      # … 你的其他环境变量
+    ports:
+      - 5678:5678
