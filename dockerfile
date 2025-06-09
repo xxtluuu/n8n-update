@@ -1,12 +1,16 @@
 # 基于官方 n8n:1.95.3 镜像
 FROM n8nio/n8n:1.95.3
 
-# 切换到 root 用户以安装 Python3、pip 和 yt-dlp
+# 切到 root 安装 Python3、pip、yt-dlp
 USER root
-RUN apk add --no-cache python3 py3-pip ffmpeg\
+RUN apk add --no-cache python3 py3-pip \
     && pip3 install --break-system-packages yt-dlp \
     && apk del py3-pip \
     && rm -rf /var/cache/apk/*
+
+# 把 cookies.txt 拷贝进容器，并给 node 用户权限
+COPY cookies.txt /home/node/cookies.txt
+RUN chown node:node /home/node/cookies.txt
 
 # 切回非特权用户运行 n8n
 USER node
