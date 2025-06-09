@@ -4,10 +4,11 @@ name: n8n
 
 services:
   n8n:
-    provider: docker
-    build: .
     ports:
-      - "5678:5678"
+      - 5678:5678
+    volumes:
+      - name: downloads
+        mountPath: /home/node/downloads
     env:
       - name: DB_TYPE
         value: postgresdb
