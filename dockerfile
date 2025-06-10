@@ -3,7 +3,7 @@ FROM n8nio/n8n:1.95.3
 
 # 切到 root 安装 Python3、pip、yt-dlp
 USER root
-RUN apk add --no-cache python3 py3-pip \
+RUN apk add --no-cache python3 py3-pip ffmpeg \
     && pip3 install --break-system-packages yt-dlp \
     && apk del py3-pip \
     && rm -rf /var/cache/apk/*
