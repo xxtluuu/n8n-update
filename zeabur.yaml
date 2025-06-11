@@ -10,6 +10,8 @@ services:
     volumes:
       - name: downloads
         mountPath: /home/node/downloads
+      - name: fonts
+        mountPath: /home/node/.n8n/fonts
     env:
       - name: DB_TYPE
         value: postgresdb

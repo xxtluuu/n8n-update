@@ -8,9 +8,10 @@ RUN apk add --no-cache python3 py3-pip ffmpeg \
     && apk del py3-pip \
     && rm -rf /var/cache/apk/*
 
-# 把 cookies.txt 拷贝进容器，并给 node 用户权限
-COPY cookies.txt /home/node/cookies.txt
-RUN chown node:node /home/node/cookies.txt
+# 加载自定义字体
+RUN mkdir -p /home/node/.n8n/fonts
+COPY HYFengBoMoJiTuo-75U.ttf /home/node/.n8n/fonts/HYFengBoMoJiTuo-75U.ttf
+RUN chown node:node /home/node/.n8n/fonts/HYFengBoMoJiTuo-75U.ttf
 
 # 切回非特权用户运行 n8n
 USER node
