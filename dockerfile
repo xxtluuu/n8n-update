@@ -1,5 +1,5 @@
 # 基于官方 n8n:1.95.3 镜像
-FROM n8nio/n8n:1.104.1
+FROM n8nio/n8n:1.105.4
 
 # 切到 root 安装 Python3、pip、yt-dlp
 USER root
